@@ -1,7 +1,8 @@
 git init
+git checkout -b main
 git add .
-git commit
-git push
+git commit -m "Izmene koje su napravljene"
+git push origin main
 
 https://docs.github.com/en/get-started/quickstart/set-up-git
 https://docs.github.com/en/get-started/getting-started-with-git/caching-your-github-credentials-in-git
