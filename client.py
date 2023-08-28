@@ -4,7 +4,7 @@ from rich.prompt import Prompt
 
 server_url = "http://localhost:8000"
 
-def prikazi_zadatke():
+def show_tasks():
     """Prikazuje zadatke."""
     response = requests.get(server_url)
     data = response.json()
@@ -16,7 +16,7 @@ def prikazi_zadatke():
         print(f" {stanje} {task[1]} (id: {task[0]})")
     print("\n")
 
-def dodaj_zadatak():
+def add_task():
     """Kreira novi zadatak."""
     naziv = Prompt.ask("Naziv zadatka")
     zavrseno_input = Prompt.ask("Zavrseno?", choices=["Da", "Ne"])
@@ -26,7 +26,7 @@ def dodaj_zadatak():
 
     requests.post(server_url, json=todo)
 
-def izmeni_zadatak():
+def edit_task():
     """Menja postojeći zadatak."""
     id_zadatka = Prompt.ask("Unesite id zadatka")
     name = Prompt.ask("Unesite novi naziv")
@@ -38,28 +38,28 @@ def izmeni_zadatak():
     server_url_sa_id = f"{server_url}/?id={id_zadatka}"
     requests.put(server_url_sa_id, json=todo)
 
-def zavrsi_zadatak():
+def complete_task():
     id_zadatka = Prompt.ask("Unesite id zadatka")
 
     server_url_sa_id = f"{server_url}/complete?id={id_zadatka}"
     requests.put(server_url_sa_id)
 
-def obrisi_zadatak():
+def delete_task():
     """Briše postojeći zadatak."""
     id_zadatka = Prompt.ask("Unesite id zadatka")
     requests.delete(f"{server_url}/?id={id_zadatka}")
 
 while True:
-    prikazi_zadatke()
+    show_tasks()
     akcija = Prompt.ask("Izaberi akciju:", choices=["Zavrsi", "Dodaj", "Izmena", "Brisanje", "Izlaz"], default="Izlaz")
 
     if akcija == "Zavrsi":
-        zavrsi_zadatak()
+        complete_task()
     elif akcija == "Dodaj":
-        dodaj_zadatak()
+        add_task()
     elif akcija == "Izmena":
-        izmeni_zadatak()
+        edit_task()
     elif akcija == "Brisanje":
-        obrisi_zadatak()
+        delete_task()
     else:
         exit()
